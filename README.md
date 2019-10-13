@@ -10,27 +10,45 @@ Make sure you have the latest version of jlenv, then run:
 
     git clone https://github.com/jlenv/jlenv-vars.git $(jlenv root)/plugins/jlenv-vars
 
+## Precedence
+
+Use `jlenv vars` command to print all environment variables in the
+order they'll be set.
+
+1. `~/.jlenv/vars`
+1. `.jlenv-vars` from parent folders
+1. `.jlenv-vars` from current folder
+
 ## Usage
 
-Define environment variables in an `.jlenv-vars` file in your project,
-one variable per line, in the format `VAR=value`. For example:
+Julia [environment variables are documented](https://docs.julialang.org/en/v1/manual/environment-variables/index.html).
 
-    RUBY_GC_MALLOC_LIMIT=50000000
-    RUBY_HEAP_MIN_SLOTS=15000
-    RUBY_FREE_MIN=4096
+Define environment variables in an `.jlenv-vars` file in your project,
+one variable per line, in the format `VAR=value`. 
+For example:
+
+```bash
+JULIA_NUM_THREADS=2
+JULIA_ERROR_COLOR="\033[91m"
+JULIA_DEPOT_PATH="foo/bar"
+```
 
 You can perform variable substitution with the traditional `$`
 syntax. For example, to append to `GEM_PATH`:
 
-    GEM_PATH=$GEM_PATH:/u/shared/gems
+```bash
+JULIA_LOAD_PATH=$JULIA_LOAD_PATH:/u/shared/gems
+```
 
 You may also have conditional variable assignments, such that a
 variable will **only** be set if it is not already defined or is blank:
 
-    JAVA_OPTS?=-server -Xmx768m -Xms768m -Xmn128m -Xss20m
+```bash
+JULIA_LLVM_ARGS?=-debug-only=loop-vectorize
+```
 
-In the above case, `JAVA_OPTS` will only be set if `$JAVA_OPTS` is
-currently empty (i.e., if `[ -z "$JAVA_OPTS" ]` is true).
+In the above case, `JULIA_LLVM_ARGS` will only be set if `$JULIA_LLVM_ARGS` is
+currently empty (i.e., if `[ -z "$JULIA_LLVM_ARGS" ]` is true).
 
 Spaces are allowed in values; quoting is not necessary. Expansion and
 command substitution are not allowed. Lines beginning with `#` or any
