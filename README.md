@@ -1,8 +1,8 @@
-# jlenv-vars
+# jlenv-vars: Set environment variables before spawning Julia processes
 
 This is a plugin for [jlenv](https://github.com/jlenv/jlenv)
 that lets you set global and project-specific environment variables
-before spawning Ruby processes.
+before spawning Julia processes.
 
 ## Installation
 
@@ -20,6 +20,10 @@ order they'll be set.
 1. `.jlenv-vars` from current folder
 
 ## Usage
+
+```bash
+jlenv help vars
+```
 
 Julia [environment variables are documented](https://docs.julialang.org/en/v1/manual/environment-variables/index.html).
 
