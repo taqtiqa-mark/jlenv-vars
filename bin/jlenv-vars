@@ -13,6 +13,27 @@
 set -e
 [ -n "$JLENV_DEBUG" ] && set -x
 
+# Provide jlenv completions
+case "$1" in
+  --complete )
+    echo --help
+    echo --verbose
+    exit
+    ;;
+  -v | --verbose )
+    verbose=1
+    shift
+    ;;
+  --help )
+    jlenv-help each
+    exit
+    ;;
+  ""  | -* )
+    jlenv-help --usage each >&2
+    exit 1
+    ;;
+esac
+
 if [ "$1" = "--version" ] || [ "$1" = "-v" ]; then
   echo "jlenv-vars 1.0.0"
   exit
