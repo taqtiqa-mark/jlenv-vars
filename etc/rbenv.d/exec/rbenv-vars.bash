@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-eval "$(rbenv-vars)"
-
+eval "$(jlenv-vars)"
