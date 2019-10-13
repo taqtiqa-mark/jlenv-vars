@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
 #
-# Usage: rbenv vars
+# Usage: jlenv vars
 #
-# Prints all rbenv-vars environment variables applicable to the
+# Prints all jlenv-vars environment variables applicable to the
 # current working directory in the order they will be set. The output
 # format is a script that may be passed to `eval` in a Bourne-
 # compatible shell.
 #
-# For more information on rbenv-vars, see:
-# https://github.com/rbenv/rbenv-vars#readme
+# For more information on jlenv-vars, see:
+# https://github.com/jlenv/jlenv-vars#readme
 
 set -e
-[ -n "$RBENV_DEBUG" ] && set -x
+[ -n "$JLENV_DEBUG" ] && set -x
 
 if [ "$1" = "--version" ] || [ "$1" = "-v" ]; then
-  echo "rbenv-vars 1.2.0"
+  echo "jlenv-vars 1.0.0"
   exit
 fi
 
-traverse-rbenv-vars-files() {
+traverse-jlenv-vars-files() {
   local root="$1"
   local results=""
 
   while [ -n "$root" ]; do
-    if [ -e "${root}/.rbenv-vars" ]; then
-      results="${root}/.rbenv-vars"$'\n'"$results"
+    if [ -e "${root}/.jlenv-vars" ]; then
+      results="${root}/.jlenv-vars"$'\n'"$results"
     fi
     root="${root%/*}"
   done
@@ -36,13 +36,13 @@ traverse-rbenv-vars-files() {
   fi
 }
 
-find-rbenv-vars-files() {
-  if [ -e "${RBENV_ROOT}/vars" ]; then
-    echo "${RBENV_ROOT}/vars"
+find-jlenv-vars-files() {
+  if [ -e "${JLENV_ROOT}/vars" ]; then
+    echo "${JLENV_ROOT}/vars"
   fi
 
-  traverse-rbenv-vars-files "$RBENV_DIR" ||
-  [ "$RBENV_DIR" = "$PWD" ] || traverse-rbenv-vars-files "$PWD"
+  traverse-jlenv-vars-files "$JLENV_DIR" ||
+  [ "$JLENV_DIR" = "$PWD" ] || traverse-jlenv-vars-files "$PWD"
 }
 
 sanitize-vars() {
@@ -61,4 +61,4 @@ while read file; do
   echo "# $file"
   { cat "$file"; echo; } | sanitize-vars
   echo
-done < <( find-rbenv-vars-files )
+done < <( find-jlenv-vars-files )
