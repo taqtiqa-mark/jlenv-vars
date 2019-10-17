@@ -1,5 +1,5 @@
 # Don't track test scaffolding:
-test/libs/
+test/libs/*
 test/libexec/bin
 test/libexec/libexec
 test/libexec/share
