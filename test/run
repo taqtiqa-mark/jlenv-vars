@@ -18,4 +18,4 @@ fi
 
 # Execute the Bats tests.
 
-test/libs/bats/bin/bats test/$1
+exec test/libs/bats/bin/bats test/"$1"
