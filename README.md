@@ -1,8 +1,11 @@
-# jlenv-vars: Set environment variables before spawning Julia processes
+# jlenv-vars: Print environment variables for current working directory.
 
 This is a plugin for [jlenv](https://github.com/jlenv/jlenv)
-that lets you set global and project-specific environment variables
-before spawning Julia processes.
+that lets you print global and project-specific environment variables
+before spawning Julia processes.  
+The print order is the order they are set.
+The output format is a script that may be passed to `eval` in a Bourne
+compatible shell.
 
 ## Installation
 
@@ -13,7 +16,7 @@ Make sure you have the latest version of jlenv, then run:
 ## Precedence
 
 Use `jlenv vars` command to print all environment variables in the
-order they'll be set.
+order they will be set. 
 
 1. `~/.jlenv/vars`
 1. `.jlenv-vars` from parent folders
@@ -64,7 +67,7 @@ directories of the current directory will be set. Variables from the
 `.jlenv-vars` file in the current directory are set last.
 
 Use the `jlenv vars` command to print all environment variables in the
-order they'll be set.
+order they will be set.
 
 ## Version History
 
@@ -74,5 +77,4 @@ order they'll be set.
 
 ## License
 
-&copy; 2012 Sam Stephenson. Released under the MIT license. See
-`LICENSE` for details.
+Released under the MIT license. See `LICENSE` for details.

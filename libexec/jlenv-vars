@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 #
+# Summary: Prints all environment variables for current working directory
+#
 # Usage: jlenv vars
 #
-# Prints all jlenv-vars environment variables applicable to the
-# current working directory in the order they will be set. The output
+# Print all jlenv-vars environment variables from `.jlenv-vars` in the
+# current working directory, in the order they will be set. The output
 # format is a script that may be passed to `eval` in a Bourne-
 # compatible shell.
 #
@@ -11,8 +13,21 @@
 # https://github.com/jlenv/jlenv-vars#readme
 
 set -e
-[ -n "$JLENV_DEBUG" ] && set -x
+case ${JLENV_DEBUG:-1} in
+  0) # Enable tracing
+    set -x
+    ;;
+  1) # Disable tracing
+    set +x
+    ;;
+  *) # Disable tracing
+    set +x
+    ;;
+esac
 
+noop=""
+verbose=""
+quiet=""
 # Provide jlenv completions
 case "$1" in
   --complete )
@@ -24,20 +39,23 @@ case "$1" in
     verbose=1
     shift
     ;;
-  --help )
-    jlenv-help each
-    exit
+  --version )
+    echo "v1.0.0"
+    exit 0
     ;;
-  ""  | -* )
-    jlenv-help --usage each >&2
+  -q | --quiet ) 
+    quiet=1
+    shift
+    ;;
+  --help )
+    jlenv-help vars
+    exit 0
+    ;;
+  -* )
+    jlenv-help --usage vars >&2
     exit 1
     ;;
 esac
-
-if [ "$1" = "--version" ] || [ "$1" = "-v" ]; then
-  echo "jlenv-vars 1.0.0"
-  exit
-fi
 
 traverse-jlenv-vars-files() {
   local root="$1"
@@ -77,6 +95,10 @@ sanitize-vars() {
     -e "s/^[ "$'\t'"]*\([A-Za-z_][0-9A-Za-z_]*?\{0,1\}\)=\(.*\)$/export \\1='\\2'/" \
     -e "s/export \([A-Za-z_][0-9A-Za-z_]*\)?=/[ -n \"\$\\1\" ] || export \\1=/g"
 }
+
+#####################################################################
+# Main script
+#####################################################################
 
 while read file; do
   echo "# $file"
