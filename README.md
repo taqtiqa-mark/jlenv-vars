@@ -29,7 +29,7 @@ order they will be set.
 ## Usage
 
 ```bash
-  jlenv help vars
+jlenv help vars
 ```
 
 Julia [environment variables are documented](https://docs.julialang.org/en/v1/manual/environment-variables/index.html).
