@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Summary: Prints all environment variables for current working directory
+# Summary: Print all environment variables for current working directory
 #
 # Usage: jlenv vars
 #
@@ -25,9 +25,6 @@ case ${JLENV_DEBUG:-1} in
     ;;
 esac
 
-noop=""
-verbose=""
-quiet=""
 # Provide jlenv completions
 case "$1" in
   --complete )
@@ -35,17 +32,9 @@ case "$1" in
     echo --verbose
     exit
     ;;
-  -v | --verbose )
-    verbose=1
-    shift
-    ;;
   --version )
     echo "v1.0.0"
     exit 0
-    ;;
-  -q | --quiet ) 
-    quiet=1
-    shift
     ;;
   --help )
     jlenv-help vars
@@ -100,7 +89,7 @@ sanitize-vars() {
 # Main script
 #####################################################################
 
-while read file; do
+while read -r file; do
   echo "# $file"
   { cat "$file"; echo; } | sanitize-vars
   echo
